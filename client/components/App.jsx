@@ -4,7 +4,15 @@ import React, { useState, useEffect } from 'react';
 import style from '../styles/style.jsx';
 import { bubbleSort, quickSort, mergeSort } from '../sortAlgo/sortFile.js';
 
-const { ArrayContainer, Bar, ButtonContainer } = style;
+const {
+  ArrayContainer,
+  Bar,
+  ButtonContainer,
+  NewArrayForm,
+  FormInputButton,
+  SortButton,
+  FormInputText,
+} = style;
 
 // eslint-disable-next-line no-unused-vars
 const test = (array, algo) => {
@@ -33,16 +41,17 @@ const stopTimeout = () => {
 const generateArray = (n) => {
   const answer = [];
   for (let i = 0; i < n; i += 1) {
-    answer.push(Math.floor(Math.random() * 700));
+    answer.push(Math.floor(Math.random() * 650) + 50);
   }
   return answer;
 };
 
 const App = () => {
   const [array, setArray] = useState([]);
+  const [size, setSize] = useState(300);
 
   useEffect(() => {
-    setArray(generateArray(300));
+    setArray(generateArray(size));
   }, []);
 
   const sort = (e) => {
@@ -50,7 +59,7 @@ const App = () => {
     clicked = true;
     let stages = [];
     let speed = 0;
-    const algorithm = e.target.className;
+    const algorithm = e.target.id;
     if (algorithm === 'bubbleSort') {
       stages = bubbleSort(array);
       speed = 0.1;
@@ -70,24 +79,36 @@ const App = () => {
     }
   };
 
-  const newArray = () => {
+  const newArray = (n) => {
     stopTimeout();
-    setArray(generateArray(300));
+    setArray(generateArray(n));
+  };
+
+  const submitNewArray = (e) => {
+    e.preventDefault();
+    newArray(size);
+  };
+
+  const changeSize = (e) => {
+    setSize(e.target.value);
   };
 
   return (
     <>
       <ArrayContainer>
         {array.map((num, i) => (
-          <Bar style={{ height: `${num}px` }} key={i} />
+          <Bar width={600 / array.length} style={{ height: `${num}px` }} key={i} />
         ))}
       </ArrayContainer>
       <ButtonContainer>
-        <button type="button" onClick={newArray}>GenerateNewArray</button>
-        <button type="button" className="bubbleSort" onClick={sort}>Bubble Sort</button>
-        <button type="button" className="quickSort" onClick={sort}>Quick Sort</button>
-        <button type="button" className="mergeSort" onClick={sort}>Merge Sort</button>
-        <button type="button" className="stop" onClick={stopTimeout}>Stop</button>
+        <NewArrayForm onSubmit={submitNewArray}>
+          <FormInputButton type="submit" onClick={newArray} value="Generate New Array" />
+          <FormInputText type="number" min="10" max="300" onChange={changeSize} value={size} />
+        </NewArrayForm>
+        <SortButton type="button" id="bubbleSort" onClick={sort}>Bubble Sort</SortButton>
+        <SortButton type="button" id="quickSort" onClick={sort}>Quick Sort</SortButton>
+        <SortButton type="button" id="mergeSort" onClick={sort}>Merge Sort</SortButton>
+        <SortButton type="button" id="stop" onClick={stopTimeout}>Stop</SortButton>
       </ButtonContainer>
     </>
   );

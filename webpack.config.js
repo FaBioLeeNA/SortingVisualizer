@@ -1,7 +1,7 @@
 module.exports = {
   entry: './client/index.jsx',
   output: {
-    path: '/Users/fabianyee/Desktop/Sorting Visualizer/public',
+    path: `${__dirname}/public`,
     filename: 'bundle.js',
   },
   watch: true,

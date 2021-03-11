@@ -11,17 +11,29 @@ export default {
   Bar: styled.div`
     display: inline-block;
     background-color: pink;
-    width: 2px;
+    width: ${(props) => `${props.width}px`};
     margin: 0 1px;
   `,
 
-  NewArrayButton: styled.button`
-
+  SortButton: styled.button`
+    height: 30px;
   `,
 
   ButtonContainer: styled.div`
     display:flex;
     width: fit-content;
     margin: 0 auto;
+  `,
+
+  NewArrayForm: styled.form`
+    height: 30px;
+  `,
+
+  FormInputButton: styled.input`
+    height: 30px;
+  `,
+
+  FormInputText: styled.input`
+    height: 30px;
   `,
 };
